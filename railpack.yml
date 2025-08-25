@@ -1,0 +1,9 @@
+apps:
+  backend:
+    path: ./backend
+    build: "npm install"
+    start: "node index.js"
+  frontend:
+    path: ./frontend
+    build: "npm install && npm run build"
+    static: true
