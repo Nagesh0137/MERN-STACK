@@ -67,17 +67,33 @@ export const validateRegisterForm = (name, email, password, confirmPassword) => 
     };
 };
 
-export const validateTaskForm = (title, description = '') => {
+export const validateTaskForm = (title, description = '', dueDate = '') => {
     const errors = {};
 
+    // Title validation
     if (!title || !title.trim()) {
         errors.title = 'Task title is required';
+    } else if (title.trim().length < 3) {
+        errors.title = 'Title must be at least 3 characters long';
     } else if (title.trim().length > 255) {
         errors.title = 'Title must be less than 255 characters';
     }
 
+    // Description validation
     if (description && description.length > 1000) {
         errors.description = 'Description must be less than 1000 characters';
+    }
+
+    // Due date validation
+    if (dueDate) {
+        const today = new Date();
+        const selectedDate = new Date(dueDate);
+        today.setHours(0, 0, 0, 0);
+        selectedDate.setHours(0, 0, 0, 0);
+
+        if (selectedDate < today) {
+            errors.due_date = 'Due date cannot be in the past';
+        }
     }
 
     return {

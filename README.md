@@ -1,52 +1,100 @@
-# Task Management System - MERN Stack
+# 📋 Task Management System - MERN Stack
 
-A full-stack task management application built with **MongoDB/MySQL**, **Express.js**, **React**, and **Node.js**.
+> **Company Technical Assessment Project**
 
-## 🚀 Features
+A full-stack task management application built with **MySQL**, **Express.js**, **React**, and **Node.js** (MERN Stack). This project demonstrates modern web development practices, authentication, CRUD operations, and cloud deployment.
+
+## 🌐 Live Demo
+
+- **Frontend (Deployed)**: [https://merntaskfront.netlify.app/](https://merntaskfront.netlify.app/)
+- **Backend**: Hosted on Railway
+- **Database**: MySQL on Clever Cloud
+- **Repository**: [https://github.com/Nagesh0137/MERN-STACK](https://github.com/Nagesh0137/MERN-STACK)
+
+## 🚀 Project Overview
+
+This project was developed as a **company technical assessment** to demonstrate proficiency in:
+
+- Full-stack web development with MERN stack
+- Modern React patterns and hooks
+- RESTful API design and implementation
+- Database design and relationships
+- Authentication and authorization
+- Cloud deployment and DevOps
+- Code organization and best practices
+
+## ✨ Features
+
+### 🎯 Core Functionality
+
+- **User Authentication**: Secure registration and login with JWT
+- **Task Management**: Complete CRUD operations for tasks
+- **Task Organization**: Status tracking (Pending, In Progress, Completed)
+- **Priority System**: Low, Medium, High priority levels
+- **Due Date Management**: Set and track task deadlines
+- **Advanced Filtering**: Filter by status, priority, and due dates
+- **Real-time Updates**: Dynamic task statistics and counters
+
+### 🛡️ Security Features
+
+- JWT-based authentication
+- Password hashing with bcrypt
+- Protected routes and middleware
+- Input validation and sanitization
+- CORS configuration
+
+### 📱 User Experience
+
+- Responsive design for all devices
+- Intuitive dashboard with statistics
+- Modern UI with Bootstrap
+- Loading states and error handling
+- Form validation with real-time feedback
+
+## 🏗️ Technical Architecture
 
 ### Frontend (React)
 
-- ✅ User Registration & Login with form validation
-- ✅ Protected Routes with JWT authentication
-- ✅ Responsive Dashboard with task statistics
-- ✅ Complete CRUD operations for tasks
-- ✅ Task filtering and sorting (status, priority, date)
-- ✅ React Router for navigation
-- ✅ Context API for state management
-- ✅ Axios for API communication
-- ✅ Modern UI with Tailwind CSS
-- ✅ Unit tests with Vitest and React Testing Library
+- **Framework**: React 19.1.1 with Vite
+- **Routing**: React Router DOM v7
+- **State Management**: Context API + useReducer
+- **HTTP Client**: Axios for API communication
+- **Styling**: Bootstrap 5.3.8 + Bootstrap Icons
+- **Testing**: Vitest + React Testing Library
+- **Build Tool**: Vite for fast development and building
 
 ### Backend (Node.js + Express)
 
-- ✅ RESTful API endpoints
-- ✅ JWT Authentication with bcrypt password hashing
-- ✅ MySQL database with proper relationships
-- ✅ Input validation and error handling
-- ✅ CORS enabled for frontend communication
-- ✅ Environment variables for configuration
+- **Runtime**: Node.js with Express.js framework
+- **Authentication**: JWT with bcryptjs for password hashing
+- **Database**: MySQL with mysql2 driver
+- **Validation**: express-validator for input validation
+- **Security**: CORS middleware for cross-origin requests
+- **Environment**: dotenv for configuration management
 
-### Task Features
+### Database Schema (MySQL)
 
-- ✅ Create, Read, Update, Delete tasks
-- ✅ Task status: Pending, In Progress, Completed
-- ✅ Priority levels: Low, Medium, High
-- ✅ Due dates with overdue detection
-- ✅ Task filtering and sorting capabilities
+```sql
+-- Users table for authentication
+users: id, username, email, password, created_at, updated_at
 
-## 📋 Prerequisites
+-- Tasks table with relationships
+tasks: id, title, description, status, priority, due_date, user_id, created_at, updated_at
+```
 
-- Node.js (v14 or higher)
+## 🛠️ Installation & Local Development
+
+### Prerequisites
+
+- Node.js (v16 or higher)
 - MySQL Server
 - Git
-
-## 🛠️ Installation & Setup
 
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repo-url>
-cd mern-task-management
+git clone https://github.com/Nagesh0137/MERN-STACK.git
+cd MERN-STACK
 ```
 
 ### 2. Backend Setup
@@ -60,11 +108,11 @@ npm install
 
 #### Database Setup
 
-1. Create a MySQL database named `mern_task_db`
+1. Create a MySQL database
 2. Import the schema:
 
 ```bash
-mysql -u root -p mern_task_db < database/schema.sql
+mysql -u root -p your_database_name < database/schema.sql
 ```
 
 #### Environment Configuration
@@ -78,7 +126,7 @@ JWT_EXPIRES_IN=7d
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=your_mysql_password
-DB_NAME=mern_task_db
+DB_NAME=your_database_name
 ```
 
 #### Start the Backend Server
@@ -115,13 +163,12 @@ cd frontend
 npm test
 ```
 
-### Test Coverage
+The project includes comprehensive tests for:
 
-The project includes unit tests for:
-
-- Component rendering
-- Form validation functions
-- User interactions
+- Component rendering and functionality
+- Form validation
+- User authentication flows
+- Task CRUD operations
 
 ## 📊 API Endpoints
 
@@ -146,77 +193,115 @@ The project includes unit tests for:
 - `sortBy` - Sort field (created_at, due_date, title, priority)
 - `order` - Sort order (ASC, DESC)
 
-## 🎨 UI Features
+## 🎨 UI/UX Features
 
-### Responsive Design
+### Design System
 
-- Mobile-first approach
-- Tailwind CSS for styling
-- Accessible design patterns
+- Modern Bootstrap 5 design
+- Responsive layout for all devices
+- Consistent color scheme and typography
+- Intuitive navigation and user flow
 
 ### Interactive Elements
 
-- Real-time task status updates
-- Drag-and-drop task completion
-- Contextual task statistics
-- Advanced filtering and sorting
+- Dynamic task statistics dashboard
+- Real-time task filtering and sorting
+- Modal-based task creation/editing
+- Smooth transitions and animations
 
-## 📱 Pages
+## 🏗️ Project Structure
 
-1. **Register Page** - User registration with validation
-2. **Login Page** - User authentication
-3. **Dashboard** - Main interface with:
-   - Task statistics cards
-   - Task list with filters
-   - Task creation modal
-   - User profile dropdown
-
-## 🔒 Security Features
-
-- JWT token-based authentication
-- Password hashing with bcrypt
-- Protected API routes
-- Input validation and sanitization
-- CORS configuration
-- SQL injection prevention
-
-## 🚀 Deployment Options
-
-### Free Deployment Platforms
-
-- **Frontend**: Vercel, Netlify
-- **Backend**: Render, Railway, Heroku
-- **Database**: PlanetScale, Aiven, Railway
-
-### Environment Variables for Production
-
-Update the backend `.env` file with production values:
-
-```env
-NODE_ENV=production
-JWT_SECRET=production-jwt-secret-very-long-and-secure
-DB_HOST=your-production-db-host
-DB_USER=your-production-db-user
-DB_PASSWORD=your-production-db-password
+```
+MERN-STACK/
+├── backend/
+│   ├── config/           # Database and app configuration
+│   ├── database/         # SQL schema and setup files
+│   ├── middleware/       # Authentication and validation
+│   ├── routes/          # API route definitions
+│   ├── public/          # Static files
+│   ├── index.js         # Server entry point
+│   └── package.json     # Backend dependencies
+├── frontend/
+│   ├── src/
+│   │   ├── components/  # React components
+│   │   ├── context/     # React Context for state management
+│   │   ├── utils/       # Helper functions and validation
+│   │   ├── tests/       # Unit tests
+│   │   └── assets/      # Static assets
+│   ├── public/          # Public assets
+│   └── package.json     # Frontend dependencies
+└── README.md            # Project documentation
 ```
 
-## 📈 Performance Features
+## 🔒 Security Implementation
 
-- Optimized API queries
-- Efficient state management
-- Lazy loading where applicable
-- Responsive caching strategies
+- **JWT Authentication**: Secure token-based authentication
+- **Password Security**: bcrypt hashing with salt rounds
+- **Input Validation**: Comprehensive server-side validation
+- **SQL Protection**: Prepared statements to prevent injection
+- **CORS Configuration**: Proper cross-origin resource sharing
+- **Protected Routes**: Middleware-based route protection
 
-## 🔧 Development Scripts
+## 🌐 Deployment Details
 
-### Backend
+### Production Environment
 
-```bash
-npm start          # Start production server
-npm run dev        # Start development server with nodemon
-```
+- **Frontend**: Deployed on Netlify ([https://merntaskfront.netlify.app/](https://merntaskfront.netlify.app/))
+- **Backend**: Hosted on Railway with auto-deployment
+- **Database**: MySQL database on Clever Cloud
+- **CI/CD**: Automated deployment pipeline from GitHub
 
-### Frontend
+### Deployment Features
+
+- Environment-based configuration
+- Automatic SSL certificates
+- CDN integration for static assets
+- Database connection pooling
+- Error monitoring and logging
+
+## 📈 Performance Optimizations
+
+- **Frontend**: Vite build optimization, code splitting
+- **Backend**: Efficient database queries, response caching
+- **Database**: Indexed columns for faster queries
+- **Network**: Compressed responses, optimized API calls
+
+## 🎯 Company Assessment Criteria Addressed
+
+This project demonstrates:
+
+1. **Technical Proficiency**: Full-stack development with modern technologies
+2. **Code Quality**: Clean, maintainable, and well-documented code
+3. **Database Design**: Proper schema design and relationships
+4. **Security**: Implementation of authentication and data protection
+5. **Testing**: Unit tests and validation testing
+6. **Deployment**: Cloud deployment with production-ready configuration
+7. **Documentation**: Comprehensive project documentation
+8. **Best Practices**: Following industry standards and conventions
+
+## � Future Enhancements
+
+- Real-time notifications with WebSockets
+- File attachment support for tasks
+- Team collaboration features
+- Advanced reporting and analytics
+- Mobile app development
+- Integration with third-party services
+
+## 👨‍� Developer
+
+**Nagesh** - Full Stack Developer
+
+- GitHub: [https://github.com/Nagesh0137](https://github.com/Nagesh0137)
+- Project Repository: [https://github.com/Nagesh0137/MERN-STACK](https://github.com/Nagesh0137/MERN-STACK)
+
+## 📄 License
+
+This project is developed as a technical assessment and is available for educational purposes.
+
+---
+
+**Note**: This project was created as part of a company technical assessment to demonstrate full-stack development capabilities using the MERN stack with modern deployment practices.
 
 ```bash
 npm run dev        # Start development server

@@ -25,11 +25,14 @@ const TaskList = ({ tasks, loading, onEditTask }) => {
 
     if (loading) {
         return (
-            <div className="p-6">
-                <div className="animate-pulse space-y-4">
-                    {[...Array(3)].map((_, i) => (
-                        <div key={i} className="bg-gray-200 h-20 rounded"></div>
-                    ))}
+            <div className="task-list-container">
+                <div className="loading-state">
+                    <div className="loading-spinner">
+                        <div className="spinner-border text-primary" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                    <p className="loading-text">Loading your tasks...</p>
                 </div>
             </div>
         );
@@ -37,114 +40,125 @@ const TaskList = ({ tasks, loading, onEditTask }) => {
 
     if (tasks.length === 0) {
         return (
-            <div className="p-6 text-center">
-                <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                </svg>
-                <h3 className="mt-2 text-sm font-medium text-gray-900">No tasks found</h3>
-                <p className="mt-1 text-sm text-gray-500">Get started by creating a new task.</p>
+            <div className="task-list-container">
+                <div className="empty-state">
+                    <div className="empty-icon">
+                        <i className="bi bi-clipboard-check"></i>
+                    </div>
+                    <h5 className="empty-title">No tasks yet</h5>
+                    <p className="empty-description">Create your first task to get started on your productivity journey.</p>
+                    <div className="empty-illustration">
+                        <div className="floating-cards">
+                            <div className="card-float card-1"></div>
+                            <div className="card-float card-2"></div>
+                            <div className="card-float card-3"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
 
     return (
-        <div className="divide-y divide-gray-200">
-            {tasks.map((task) => (
-                <div key={task.id} className="p-6 hover:bg-gray-50">
-                    <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                            <div className="flex items-center space-x-3">
+        <div className="task-list-container">
+            <div className="task-grid">
+                {tasks.map((task, index) => (
+                    <div key={task.id} className={`task-card ${task.status} fade-in-up`} style={{ animationDelay: `${index * 0.1}s` }}>
+                        {/* Task Header */}
+                        <div className="task-header">
+                            <div className="task-status-indicator">
                                 <button
                                     onClick={() => handleStatusChange(task, task.status === 'completed' ? 'pending' : 'completed')}
-                                    className={`w-5 h-5 rounded border-2 flex items-center justify-center ${task.status === 'completed'
-                                            ? 'bg-green-500 border-green-500'
-                                            : 'border-gray-300 hover:border-green-500'
-                                        }`}
+                                    className={`status-checkbox ${task.status === 'completed' ? 'completed' : ''}`}
+                                    title={task.status === 'completed' ? 'Mark as pending' : 'Mark as completed'}
                                 >
                                     {task.status === 'completed' && (
-                                        <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                        </svg>
+                                        <i className="bi bi-check2"></i>
                                     )}
                                 </button>
-
-                                <h3 className={`text-lg font-medium ${task.status === 'completed' ? 'line-through text-gray-500' : 'text-gray-900'
-                                    }`}>
-                                    {task.title}
-                                </h3>
-
-                                <div className="flex items-center space-x-2">
-                                    <span
-                                        className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
-                                        style={{
-                                            backgroundColor: `${getStatusColor(task.status)}20`,
-                                            color: getStatusColor(task.status)
-                                        }}
-                                    >
-                                        {capitalize(task.status.replace('_', ' '))}
-                                    </span>
-
-                                    <span
-                                        className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
-                                        style={{
-                                            backgroundColor: `${getPriorityColor(task.priority)}20`,
-                                            color: getPriorityColor(task.priority)
-                                        }}
-                                    >
-                                        {capitalize(task.priority)} Priority
-                                    </span>
-                                </div>
                             </div>
+
+                            <div className="task-badges">
+                                <span className={`priority-badge priority-${task.priority}`}>
+                                    <i className={`bi ${task.priority === 'high' ? 'bi-exclamation-triangle-fill' :
+                                        task.priority === 'medium' ? 'bi-dash-circle-fill' : 'bi-circle-fill'}`}></i>
+                                    {capitalize(task.priority)}
+                                </span>
+                                <span className={`status-badge status-${task.status.replace('_', '-')}`}>
+                                    {capitalize(task.status.replace('_', ' '))}
+                                </span>
+                            </div>
+
+                            <div className="task-actions">
+                                <button
+                                    onClick={() => onEditTask(task)}
+                                    className="action-btn edit-btn"
+                                    title="Edit task"
+                                >
+                                    <i className="bi bi-pencil"></i>
+                                </button>
+                                <button
+                                    onClick={() => handleDelete(task.id)}
+                                    disabled={deletingId === task.id}
+                                    className="action-btn delete-btn"
+                                    title="Delete task"
+                                >
+                                    {deletingId === task.id ? (
+                                        <div className="mini-spinner"></div>
+                                    ) : (
+                                        <i className="bi bi-trash"></i>
+                                    )}
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Task Content */}
+                        <div className="task-content">
+                            <h6 className={`task-title ${task.status === 'completed' ? 'completed' : ''}`}>
+                                {task.title}
+                            </h6>
 
                             {task.description && (
-                                <p className="mt-2 text-gray-600">{task.description}</p>
+                                <p className="task-description">
+                                    {task.description}
+                                </p>
                             )}
+                        </div>
 
-                            <div className="mt-3 flex items-center space-x-4 text-sm text-gray-500">
-                                <span>Created: {formatDate(task.created_at)}</span>
+                        {/* Task Footer */}
+                        <div className="task-footer">
+                            <div className="task-dates">
+                                <div className="date-item">
+                                    <i className="bi bi-calendar-plus"></i>
+                                    <span>Created {formatDate(task.created_at)}</span>
+                                </div>
                                 {task.due_date && (
-                                    <span className={`${new Date(task.due_date) < new Date() && task.status !== 'completed'
-                                            ? 'text-red-600 font-medium'
+                                    <div className={`date-item due-date ${new Date(task.due_date) < new Date() && task.status !== 'completed'
+                                            ? 'overdue'
                                             : ''
                                         }`}>
-                                        Due: {formatDate(task.due_date)}
+                                        <i className="bi bi-calendar-event"></i>
+                                        <span>Due {formatDate(task.due_date)}</span>
                                         {new Date(task.due_date) < new Date() && task.status !== 'completed' && (
-                                            <span className="ml-1">(Overdue)</span>
+                                            <span className="overdue-badge">
+                                                <i className="bi bi-exclamation-circle"></i>
+                                                Overdue
+                                            </span>
                                         )}
-                                    </span>
+                                    </div>
                                 )}
                             </div>
                         </div>
 
-                        <div className="flex items-center space-x-2 ml-4">
-                            <button
-                                onClick={() => onEditTask(task)}
-                                className="text-blue-600 hover:text-blue-800"
-                                title="Edit task"
-                            >
-                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                </svg>
-                            </button>
-
-                            <button
-                                onClick={() => handleDelete(task.id)}
-                                disabled={deletingId === task.id}
-                                className="text-red-600 hover:text-red-800 disabled:opacity-50"
-                                title="Delete task"
-                            >
-                                {deletingId === task.id ? (
-                                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-red-600"></div>
-                                ) : (
-                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                    </svg>
-                                )}
-                            </button>
-                        </div>
+                        {/* Progress indicator for in-progress tasks */}
+                        {task.status === 'in_progress' && (
+                            <div className="progress-indicator">
+                                <div className="progress-bar"></div>
+                            </div>
+                        )}
                     </div>
-                </div>
-            ))}
+                ))}
+            </div>
         </div>
     );
 };
