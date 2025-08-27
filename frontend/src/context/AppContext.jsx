@@ -156,7 +156,7 @@ const appReducer = (state, action) => {
 const AppContext = createContext();
 
 // API base URL
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = 'https://mern-stack-production-9e65.up.railway.app/api';
 
 // Axios instance
 const api = axios.create({
